@@ -57,3 +57,17 @@ def success():
 # ---------- Run App ----------
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
+
+    @app.route("/submittodoitem", methods=["POST"])
+def submit_todo_item():
+    item_name = request.form.get("itemName")
+    item_desc = request.form.get("itemDescription")
+
+    todo_item = {
+        "itemName": item_name,
+        "itemDescription": item_desc
+    }
+
+    todo_collection.insert_one(todo_item)
+
+    return jsonify({"message": "To-Do item saved successfully"})
